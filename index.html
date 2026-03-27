@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NEXUS 3D — Premium Tech E-Commerce</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- LOADER -->
+  <div id="loader">
+    <div style="font-family:'Orbitron',sans-serif;font-size:2rem;font-weight:900;color:#00d4ff;letter-spacing:8px;">
+      NEXUS</div>
+    <div class="loader-text">INITIALIZING 3D ENGINE</div>
+    <div class="loader-bar">
+      <div class="loader-fill" id="loader-fill"></div>
+    </div>
+    <div id="loader-pct" style="font-family:'Share Tech Mono',monospace;font-size:.7rem;color:#7eb8cc;">0%</div>
+  </div>
+
+  <!-- CUSTOM CURSOR -->
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- PART TOOLTIP -->
+  <div id="part-tooltip">
+    <h4 id="tt-name">COMPONENT</h4>
+    <p id="tt-desc">Description here</p>
+    <div class="part-price" id="tt-price">$0</div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <a class="logo" href="#">NEX<span>US</span></a>
+    <div class="nav-links">
+      <a href="#drone-section" class="nav-item-drone">Drones</a>
+
+      <a href="#watch-section" class="nav-item-watch">Watches</a>
+      <a href="#products">Shop</a>
+      <button class="nav-auth" id="btn-login" onclick="openLoginModal()" style="display:inline-block;">LOGIN</button>
+      <button class="nav-auth" id="btn-register" onclick="openRegisterModal()"
+        style="display:inline-block;">REGISTER</button>
+      <button class="nav-auth" id="btn-logout" onclick="logoutUser()" style="display:none;">LOGOUT</button>
+      <button class="nav-auth" id="btn-admin" onclick="openAdminModal()" style="display:none; color: var(--accent2);">ADMIN</button>
+      <button class="nav-cart" id="btn-cart" onclick="openCartModal()">CART (<span id="cart-count">0</span>)</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <canvas id="hero-canvas"></canvas>
+    <div class="hero-content">
+      <div class="hero-eyebrow">// NEXT-GEN 3D PRODUCT SHOWCASE //</div>
+      <h1 class="hero-title glitch" data-text="NEXUS 3D">NEXUS 3D</h1>
+      <p class="hero-sub">Disassemble. Explore. Experience.<br>Premium tech, from the inside out.</p>
+      <div class="hero-cta-row">
+        <button class="btn-primary"
+          onclick="document.getElementById('drone-section').scrollIntoView({behavior:'smooth'})">EXPLORE DRONES</button>
+        <button class="btn-secondary"
+          onclick="document.getElementById('car-section').scrollIntoView({behavior:'smooth'})">VIEW ENGINES</button>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span>SCROLL</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+    <div class="ticker">
+      <div class="ticker-item">NEXUS DRONE PRO X1 <span>→ $2,499</span></div>
+      <div class="ticker-item">VORTEX ENGINE REBUILD <span>→ $8,999</span></div>
+      <div class="ticker-item">CHRONOS WATCH S7 <span>→ $4,299</span></div>
+      <div class="ticker-item">FREE SHIPPING OVER $500 <span>→ WORLDWIDE</span></div>
+      <div class="ticker-item">3D EXPLODED VIEW <span>→ ALL PRODUCTS</span></div>
+      <div class="ticker-item">NEXUS DRONE PRO X1 <span>→ $2,499</span></div>
+      <div class="ticker-item">VORTEX ENGINE REBUILD <span>→ $8,999</span></div>
+      <div class="ticker-item">CHRONOS WATCH S7 <span>→ $4,299</span></div>
+      <div class="ticker-item">FREE SHIPPING OVER $500 <span>→ WORLDWIDE</span></div>
+      <div class="ticker-item">3D EXPLODED VIEW <span>→ ALL PRODUCTS</span></div>
+    </div>
+  </div>
+
+  <!-- DRONE SECTION -->
+  <section class="section" id="drone-section">
+    <div class="section-number">01</div>
+    <canvas id="drone-canvas"></canvas>
+    <div class="drone-content">
+      <div class="section-tag reveal">AERIAL INNOVATION</div>
+      <h2 class="section-title reveal">CARBON<br><em>SERIES</em></h2>
+      <p style="color:var(--text2);line-height:1.8;max-width:420px;" class="reveal">
+        A sleek, modern design with interactive 360-degree rotation. Smoothly disassemble parts to view precision engineering.
+      </p>
+      <div class="price-tag reveal">
+        <span class="price-curr">$</span>
+        <span class="price-main">1,899</span>
+      </div>
+      <div class="drone-specs reveal">
+        <div class="spec-card">
+          <div class="spec-val">1080<span style="font-size:1rem">p</span></div>
+          <div class="spec-label">Camera</div>
+        </div>
+        <div class="spec-card">
+          <div class="spec-val">GPS</div>
+          <div class="spec-label">Tracking</div>
+        </div>
+      </div>
+      <div id="drone-spec-panel" class="reveal" style="display:none; position:absolute; right:40px; top:120px; width:340px; background:rgba(2,4,8,0.9); border:1px solid var(--accent); padding:24px; border-radius:8px; z-index:50; backdrop-filter:blur(15px); box-shadow:0 0 30px rgba(0,212,255,0.15); transition: opacity 0.3s ease;">
+        <button onclick="document.getElementById('drone-spec-panel').style.display='none'" style="float:right; background:none; border:none; color:var(--text2); cursor:none; font-size:1.2rem;">&times;</button>
+        <h4 id="dp-name" style="font-family:'Orbitron',sans-serif;font-size:1.3rem;color:var(--accent);margin-bottom:8px;">Part Name</h4>
+        <p id="dp-desc" style="font-size:.9rem;color:var(--text);margin-bottom:20px;line-height:1.6;">Description</p>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:.85rem;color:var(--text2);display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex; justify-content:space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 4px;"><strong style="color:var(--accent);">SPECIFICATIONS</strong> <span id="dp-specs" style="text-align:right; max-width:180px;">-</span></div>
+          <div style="display:flex; justify-content:space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 4px;"><strong style="color:var(--accent);">MANUFACTURER</strong> <span id="dp-mfr" style="text-align:right">-</span></div>
+        </div>
+      </div>
+      
+      <p style="font-size:.75rem;color:var(--text2);margin-top:24px;letter-spacing:2px;" class="reveal">
+        💡 DRAG TO ROTATE 360° · CLICK PARTS FOR SPECS
+      </p>
+
+      <div style="margin-top:32px;display:flex;gap:16px;" class="reveal">
+        <button class="btn-primary" onclick="addToCart('nexus-drone-pro')">ADD TO CART</button>
+        <button class="btn-secondary" id="btn-drone-explode">DISASSEMBLE</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="neon-line"></div>
+
+  <!-- CAR SECTION -->
+
+  <div class="neon-line-orange"></div>
+
+  <!-- WATCH SECTION -->
+  <section class="section" id="watch-section">
+    <div class="section-number">03</div>
+    <canvas id="watch-canvas"></canvas>
+    <div class="watch-content">
+      <div class="section-tag reveal" style="color:var(--accent3);">PRODUCT 03</div>
+      <h2 class="section-title reveal">CHRONOS S7<br><em style="-webkit-text-stroke-color:var(--accent3);">WATCH</em>
+      </h2>
+      <p style="color:var(--text2);line-height:1.8;max-width:400px;" class="reveal">
+        Hover components to view detailed mechanics. Sapphire crystal, tourbillon movement, titanium case.
+      </p>
+      <div class="price-tag reveal">
+        <span class="price-curr">$</span>
+        <span class="price-main" style="color:var(--accent3);">4,299</span>
+      </div>
+
+      <div class="parts-list reveal" id="watch-parts-list">
+        <div class="assemble-part watch" data-part="0"><span class="assemble-part-num">01</span><span
+            class="assemble-part-name">Titanium Grade 5 Case</span>
+          <div class="assemble-part-status"></div>
+        </div>
+        <div class="assemble-part watch" data-part="1"><span class="assemble-part-num">02</span><span
+            class="assemble-part-name">Onyx Backing Dial</span>
+          <div class="assemble-part-status" style="background:transparent;box-shadow:none;"></div>
+        </div>
+        <div class="assemble-part watch" data-part="5"><span class="assemble-part-num">03</span><span
+            class="assemble-part-name">Tourbillon Gear Train</span>
+          <div class="assemble-part-status"></div>
+        </div>
+        <div class="assemble-part watch" data-part="4"><span class="assemble-part-num">04</span><span
+            class="assemble-part-name">Sweeping Hands mechanism</span>
+          <div class="assemble-part-status" style="background:transparent;box-shadow:none;"></div>
+        </div>
+        <div class="assemble-part watch" data-part="2"><span class="assemble-part-num">05</span><span
+            class="assemble-part-name">Sapphire Crystal Cover</span>
+          <div class="assemble-part-status"></div>
+        </div>
+      </div>
+
+      <div style="margin-top:24px;display:flex;gap:16px;" class="reveal">
+        <button class="btn-primary" style="background:var(--accent3);" onclick="addToCart('chronos-s7')">RESERVE
+          NOW</button>
+        <button class="btn-secondary" style="color:var(--accent3);border-color:var(--accent3);">VIEW MOVEMENT</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div id="stats">
+    <div class="stats-grid">
+      <div class="stat-item reveal">
+        <div class="stat-num" data-target="12400">0</div>
+        <div class="stat-desc">Units Sold</div>
+      </div>
+      <div class="stat-item reveal" style="--d:.1s">
+        <div class="stat-num" data-target="98">0<span class="stat-unit">%</span></div>
+        <div class="stat-desc">Satisfaction Rate</div>
+      </div>
+      <div class="stat-item reveal" style="--d:.2s">
+        <div class="stat-num" data-target="47">0</div>
+        <div class="stat-desc">Countries Served</div>
+      </div>
+      <div class="stat-item reveal" style="--d:.3s">
+        <div class="stat-num" data-target="5">0<span class="stat-unit">yr</span></div>
+        <div class="stat-desc">Warranty</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCTS GRID -->
+  <section id="products" style="padding:120px 80px;">
+    <div class="section-tag reveal" style="justify-content:center;">SHOP ALL</div>
+    <h2 class="section-title reveal" style="text-align:center;">FEATURED <em>PRODUCTS</em></h2>
+    <div class="products-grid" id="dynamic-products-grid">
+      <!-- Dynamic Products Will Render Here -->
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="logo" href="#">NEX<span>US</span></a>
+        <p>Premium 3D product experiences for the discerning tech enthusiast. Every component, every detail, engineered
+          to perfection.</p>
+      </div>
+      <div class="footer-col">
+        <h5>PRODUCTS</h5>
+        <a href="#">Drones</a>
+        <a href="#">Automotive</a>
+        <a href="#">Watches</a>
+        <a href="#">Accessories</a>
+      </div>
+      <div class="footer-col">
+        <h5>SUPPORT</h5>
+        <a href="#">Documentation</a>
+        <a href="#">Warranty</a>
+        <a href="#">Shipping</a>
+        <a href="#">Returns</a>
+      </div>
+      <div class="footer-col">
+        <h5>COMPANY</h5>
+        <a href="#">About</a>
+        <a href="#">Careers</a>
+        <a href="#">Press</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 NEXUS 3D. All rights reserved.</p>
+      <p style="font-family:'Share Tech Mono',monospace;font-size:.7rem;color:rgba(0,212,255,0.4);">v2.1.0 // THREE.JS
+        POWERED</p>
+    </div>
+  </footer>
+
+  <!-- LOGIN MODAL -->
+  <div id="login-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeLoginModal()">&times;</span>
+      <h3 style="font-family:'Orbitron',sans-serif;font-size:1.4rem;color:var(--accent);letter-spacing:4px;margin-bottom:24px;">LOGIN</h3>
+      <input type="text" id="login-username" placeholder="Username" class="auth-input" autocomplete="username" />
+      <input type="password" id="login-password" placeholder="Password" class="auth-input" autocomplete="current-password" />
+      <button class="btn-primary" id="login-submit" onclick="submitLogin()" style="width:100%; margin-top:16px;">LOGIN</button>
+      <p style="font-size:0.8rem;text-align:center;margin-top:16px;color:var(--text2)">
+        Don't have an account?
+        <span onclick="closeLoginModal(); openRegisterModal()" style="color:var(--accent);text-decoration:underline;cursor:pointer;">Register here</span>
+      </p>
+      <div id="login-error" style="color:#ff3333;margin-top:8px;font-size:14px;text-align:center;"></div>
+    </div>
+  </div>
+
+  <!-- REGISTER MODAL -->
+  <div id="register-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeRegisterModal()">&times;</span>
+      <h3 style="font-family:'Orbitron',sans-serif;font-size:1.4rem;color:var(--accent);letter-spacing:4px;margin-bottom:24px;">REGISTER</h3>
+      <input type="text" id="reg-username" placeholder="Username" class="auth-input" autocomplete="username" />
+      <input type="email" id="reg-email" placeholder="Email Address" class="auth-input" autocomplete="email" />
+      <input type="password" id="reg-password" placeholder="Password" class="auth-input" autocomplete="new-password" />
+      <button class="btn-primary" id="register-submit" onclick="submitRegister()" style="width:100%; margin-top:16px;">CREATE ACCOUNT</button>
+      <p style="font-size:0.8rem;text-align:center;margin-top:16px;color:var(--text2)">
+        Already have an account?
+        <span onclick="closeRegisterModal(); openLoginModal()" style="color:var(--accent);text-decoration:underline;cursor:pointer;">Login here</span>
+      </p>
+      <div id="register-error" style="color:#ff3333;margin-top:8px;font-size:14px;text-align:center;"></div>
+      <div id="register-success" style="color:#00d4ff;margin-top:8px;font-size:14px;text-align:center;"></div>
+    </div>
+  </div>
+
+  <!-- CART MODAL -->
+  <div id="cart-modal" class="modal">
+    <div class="modal-content" style="max-width: 600px;">
+      <span class="close-modal" onclick="closeCartModal()">&times;</span>
+      <h3 style="font-family:'Orbitron', sans-serif; font-size:1.5rem; color:var(--accent);">YOUR CART</h3>
+      <div id="cart-items"
+        style="margin-top:20px; font-size:1rem; color:var(--text2); display:flex; flex-direction:column; gap:12px;">
+      </div>
+      <div style="margin-top:30px; text-align:right; border-top: 1px solid var(--border); padding-top: 20px;">
+        <h4 style="font-size:1.2rem; color:var(--text);">Total: $<span id="cart-total">0</span></h4>
+        <button class="btn-primary" id="btn-checkout" onclick="checkout()" style="margin-top:16px;">SECURE CHECKOUT</button>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <!-- ADMIN DASHBOARD MODAL -->
+  <div id="admin-modal" class="modal">
+    <div class="modal-content" style="max-width: 800px;">
+      <span class="close-modal" onclick="closeAdminModal()">&times;</span>
+      <h3 style="font-family:'Orbitron', sans-serif; font-size:1.5rem; color:var(--accent2);">ADMIN DASHBOARD</h3>
+      
+      <div style="display:flex; gap: 40px; margin-top:20px;">
+        <!-- Add Product Form -->
+        <div style="flex:1;">
+          <h4 style="color:var(--text); margin-bottom:12px; font-size: 1.1rem;">ADD NEW PRODUCT</h4>
+          <input type="text" id="add-prod-name" placeholder="Name" class="auth-input" />
+          <input type="text" id="add-prod-desc" placeholder="Description" class="auth-input" />
+          <input type="number" id="add-prod-price" placeholder="Price" class="auth-input" />
+          <input type="text" id="add-prod-cat" placeholder="Category" class="auth-input" />
+          <input type="text" id="add-prod-img" placeholder="Image URL" class="auth-input" />
+          <button class="btn-primary" onclick="submitProduct()" style="width:100%; margin-top:16px; background:var(--accent2);">ADD PRODUCT</button>
+          <div id="admin-prod-msg" style="margin-top:8px; font-size:14px;"></div>
+        </div>
+
+        <!-- Orders View -->
+        <div style="flex:1.5; border-left: 1px solid var(--border); padding-left:20px;">
+          <h4 style="color:var(--text); margin-bottom:12px; font-size: 1.1rem;">RECENT ORDERS</h4>
+          <div id="admin-orders-list" style="max-height: 400px; overflow-y:auto; padding-right:10px;">
+            Loading orders...
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+  <script type="module" src="script.js"></script>
+
+</body>
+
+</html>
